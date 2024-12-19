@@ -49,6 +49,7 @@
     "vite-tsconfig-paths": "^4.2.1"
   },
   "dependencies": {
+    "firebase": "^11.1.0",
     "stripe": "^17.4.0"
   }
 }

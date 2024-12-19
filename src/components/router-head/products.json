@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "Zabiják Chřipky",
+    "price": 399,
+    "image": "https://pilulkacz.vshcdn.net/zoh4eiLi/IMG/86400/vEQGAhul5Y-XxdfIu9Je0ANJ6_8-GPmeSdpEIaybuGM/trim:0:ffffff,ff00ff/aHR0cHM6Ly9waWx1bGthLnMzLWNlbnRyYWwudnNob3N0aW5nLmNsb3VkL3BpbHVsa2EtY3ovZmlsZXMvaW1hZ2VzLzIwMjMtMDkvbWRfOTk2MDFhZDUxMGM3ZGQyOGM0ZjdlMjcwNDk2MmM1YjkucG5n.png",
+    "idRemove": 1
+  },
+  {
+    "id": 2,
+    "name": "Stop Rýmě",
+    "price": 599,
+    "image": "https://pilulkacz.vshcdn.net/zoh4eiLi/IMG/86400/I87yOWxpov9fq_pcas6-57y_J4Ch5tmhsGySuSAvD_I/trim:0:ffffff,ff00ff/aHR0cHM6Ly9waWx1bGthLnMzLWNlbnRyYWwudnNob3N0aW5nLmNsb3VkL3BpbHVsa2EtY3ovZmlsZXMvaW1hZ2VzLzIwMjQtMTEvbWRfYjUxMzRlYWZjMTM2YThmZjVhZTYwOWMzZGFhNzFmOGIucG5n.png",
+    "idRemove": 2
+  },
+  {
+    "id": 3,
+    "name": "Posilovač Imunity",
+    "price": 199,
+    "image": "https://pilulkacz.vshcdn.net/zoh4eiLi/IMG/86400/-kFcYaEVCy5XODMj6gKnOMFhGcBD-yXNNZzHrDRYJGA/trim:0:ffffff,ff00ff/aHR0cHM6Ly9waWx1bGthLnMzLWNlbnRyYWwudnNob3N0aW5nLmNsb3VkL3Ztcy1wcm9kLWNzL3Ztcy9wcm9kdWN0L2xpc3RpbmcvMjAyMy8xMS95dXp1MjAwMDcyX2RwaTE1MDBweF93ZWJfNjU1YjdhMjAxYmViODEuNzQ3MzQ5MTQucG5n.png",
+    "idRemove": 3
+  }
+]
