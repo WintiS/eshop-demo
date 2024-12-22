@@ -52,6 +52,13 @@ export const createCheckoutSession = server$(async (cartItems: Product[]) => {
       success_url:
         "https://your-domain.com/success?session_id={CHECKOUT_SESSION_ID}",
       cancel_url: "https://your-domain.com/cancel",
+      shipping_address_collection: {
+        allowed_countries: ["CZ", "SK"],
+      },
+      billing_address_collection: "auto",
+      phone_number_collection: {
+        enabled: true, // Collect the customer's phone number
+      },
     });
 
     // Return the session URL to the client
@@ -88,15 +95,13 @@ export default component$(() => {
       if (savedCart) {
         const cartState = JSON.parse(savedCart);
         // Update fetched products with cart state
-        cartState.forEach(
-          ({ id, quantity }: { id: number; quantity: number }) => {
-            const product = fetchedProducts.find((p) => p.id === id);
-            if (product) {
-              product.addedToCart = true;
-              product.quantity = quantity;
-            }
-          },
-        );
+        cartState.forEach((item: Product) => {
+          const product = fetchedProducts.find((p) => p.id === item.id);
+          if (product) {
+            product.quantity = item.quantity;
+            product.addedToCart = item.addedToCart;
+          }
+        });
       }
 
       // Update products.value with the fetched and updated products
@@ -105,33 +110,6 @@ export default component$(() => {
     } catch (error) {
       console.error("Error fetching products:", error);
     }
-  });
-
-  // eslint-disable-next-line qwik/no-use-visible-task
-  useVisibleTask$(({ track }) => {
-    track(() =>
-      products.value.map((p) => ({
-        id: p.id,
-        addedToCart: p.addedToCart,
-        quantity: p.quantity,
-        image: p.image,
-        name: p.name,
-        price: p.price,
-      })),
-    );
-
-    const cartState = products.value
-      .filter((p) => p.addedToCart)
-      .map((p) => ({
-        id: p.id,
-        quantity: p.quantity,
-        image: p.image,
-        name: p.name,
-        price: p.price,
-        addedToCart: p.addedToCart,
-      }));
-
-    localStorage.setItem("cart", JSON.stringify(cartState));
   });
 
   const addToCart = $((productId: number) => {
@@ -147,6 +125,7 @@ export default component$(() => {
         ];
       }
     }
+    localStorage.setItem("cart", JSON.stringify(products.value));
   });
 
   const removeFromCart = $((productId: number) => {
@@ -162,6 +141,7 @@ export default component$(() => {
         ];
       }
     }
+    localStorage.setItem("cart", JSON.stringify(products.value));
   });
 
   const increaseQuantity = $((productId: number) => {
@@ -177,6 +157,7 @@ export default component$(() => {
         ];
       }
     }
+    localStorage.setItem("cart", JSON.stringify(products.value));
   });
   const decreaseQuantity = $((productId: number) => {
     const productIndex = products.value.findIndex((p) => p.id === productId);
@@ -189,6 +170,7 @@ export default component$(() => {
       }
       products.value = [...products.value];
     }
+    localStorage.setItem("cart", JSON.stringify(products.value));
   });
 
   const cartProducts = useComputed$(() => {
@@ -209,25 +191,34 @@ export default component$(() => {
           products.value.map((product) => (
             <div
               key={product.id}
-              class="w-64 cursor-pointer rounded-xl bg-gray-100 py-8 transition hover:bg-gray-200"
+              class="w-64 cursor-pointer rounded-xl bg-gray-100 py-4 transition hover:bg-gray-200"
             >
-              <div class="mb-2 flex h-56 items-end justify-center">
+              <div class="mb-2 flex h-52 items-end justify-center">
                 <img src={product.image} width={80} height={0} />
               </div>
               <div class="flex flex-col items-center">
                 <p class="text-lg">{product.name}</p>
                 <p class="mb-4 text-green-800">{product.price} Kč</p>
                 {product.addedToCart ? (
-                  <button
-                    onClick$={() => removeFromCart(product.id)}
-                    class="rounded-lg border-2 border-red-700 px-3 py-2 text-sm text-red-800 transition hover:bg-red-700 hover:text-white"
-                  >
-                    Odebrat z košíku
-                  </button>
+                  <div class="mb-4 flex items-center">
+                    <button
+                      onClick$={() => decreaseQuantity(product.id)}
+                      class="rounded-lg  p-3 text-red-500"
+                    >
+                      -
+                    </button>
+                    <span class="px-2 ">{product.quantity} ks</span>
+                    <button
+                      onClick$={() => increaseQuantity(product.id)}
+                      class="rounded-lg   p-3 text-green-500"
+                    >
+                      +
+                    </button>
+                  </div>
                 ) : (
                   <button
                     onClick$={() => addToCart(product.id)}
-                    class="rounded-lg border-2 border-green-700 px-3 py-2 text-sm text-green-800 transition hover:bg-green-700 hover:text-white"
+                    class="my-3 rounded-lg border-2 border-green-700 px-3 py-2 text-sm text-green-800 transition hover:bg-green-700 hover:text-white"
                   >
                     Přidat do košíku
                   </button>
